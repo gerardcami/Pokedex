@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="action_settings">Settings</string>
+    <string name="aboutText">About</string>
+    <string name="pokedex">Pokédex</string>
+    <string name="pokemon_info">Pokemon info</string>
+    <string name="requestErr">Hubo un error en la solicitud</string>
+    <string name="author">By Gerard Camí</string>
+    <string name="go_back">Go back</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
