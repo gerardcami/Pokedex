@@ -24,10 +24,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    int limit = 100;
-    int counter = 0;
+public class MainActivity extends AppCompatActivity implements PokemonListFragment.OnPokemonSelectedListener {
+    // ...
+
+    @Override
+    public void onPokemonSelected(String pokemonId) {
+        getPokemonDetails(pokemonId);
+    }
+
+    int limit = 10;
     private final ArrayList<pokemon> data = new ArrayList<>();
+    JSONObject singlePokemonDetails;
     TabLayout tabLayout;
 
     @Override
@@ -36,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getPokemonData(pokeUrls -> {
             for (String url : pokeUrls) {
-                counter++;
                 getSinglePokemon(url, result -> {
                     try {
                         String id = result.getString("id");
@@ -60,6 +66,18 @@ public class MainActivity extends AppCompatActivity {
         });
         tabLayout = findViewById(R.id.tabLayout);
         setupTabLayout();
+
+    }
+
+    private void getPokemonDetails(String id){
+        String url = "https://pokeapi.co/api/v2/pokemon/" + id;
+        getSinglePokemon(url, new pokemonCallback() {
+            @Override
+            public void onCallback(JSONObject result) {
+                singlePokemonDetails = result;
+                showPokemonDetailFragment(singlePokemonDetails);
+            }
+        });
     }
 
     private void setupTabLayout() {
@@ -71,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         showPokemonListFragment(data);
                         break;
                     case 1:
-                        showPokemonDetailFragment();
+                        showPokemonDetailFragment(singlePokemonDetails);
                 }
             }
 
@@ -87,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showPokemonDetailFragment() {
-        PokemonDetailFragment fragment = PokemonDetailFragment.newInstance();
+    public void showPokemonDetailFragment(JSONObject details) {
+        PokemonDetailFragment fragment = PokemonDetailFragment.newInstance(details);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
@@ -142,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void getSinglePokemon(String url, final pokemonCallback callback) {
+    public void getSinglePokemon(String url, final pokemonCallback callback) {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback::onCallback, error -> Log.d("Error", R.string.requestErr + error.toString()));
         queue.add(request);

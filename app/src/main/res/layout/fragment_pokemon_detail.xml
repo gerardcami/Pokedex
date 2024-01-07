@@ -4,12 +4,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_gravity="center"
     tools:context=".fragments.PokemonDetailFragment">
+    <TextView
+        android:id="@+id/singlePokemonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pokemon name"
+        android:textSize="50sp"
+        android:textAlignment="center"/>
+
 
     <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:id="@+id/singlePokemonImg"/>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stats"
+                    android:textSize="35sp" />
+
+                <TextView
+                    android:id="@+id/healthPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hp"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/attack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attack"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Defense"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/special_attack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Special-attack"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/special_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Special-defense"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speed"
+                    android:textSize="25sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/ability1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ability1"
+                android:textSize="30sp"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/ability2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ability2"
+                android:textSize="30sp"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+        </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>
