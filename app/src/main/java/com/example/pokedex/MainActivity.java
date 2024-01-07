@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
             public void onCallback(JSONObject result) {
                 singlePokemonDetails = result;
                 showPokemonDetailFragment(singlePokemonDetails);
+                tabLayout.getTabAt(1).select();
             }
         });
     }

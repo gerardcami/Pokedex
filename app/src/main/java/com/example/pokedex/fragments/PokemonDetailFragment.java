@@ -27,9 +27,11 @@ public class PokemonDetailFragment extends Fragment {
     public static PokemonDetailFragment newInstance(JSONObject pokemonDetails) {
         PokemonDetailFragment fragment = new PokemonDetailFragment();
         Bundle args = new Bundle();
-        String detailsString = pokemonDetails.toString();
-        args.putString("detailsString", detailsString);
-        fragment.setArguments(args);
+        if (pokemonDetails != null){
+            String detailsString = pokemonDetails.toString();
+            args.putString("detailsString", detailsString);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
     @Override
@@ -86,60 +88,72 @@ public class PokemonDetailFragment extends Fragment {
 
     private String getAbilityName(int index) {
         String result = "";
-        try {
-            JSONArray abilities = details.getJSONArray("abilities");
-            JSONObject ability = abilities.getJSONObject(index);
-            JSONObject abilityInfo = ability.getJSONObject("ability");
-            result = abilityInfo.getString("name");
-        }catch (JSONException e){
-            e.printStackTrace();
+        if (details != null){
+            try {
+                JSONArray abilities = details.getJSONArray("abilities");
+                JSONObject ability = abilities.getJSONObject(index);
+                JSONObject abilityInfo = ability.getJSONObject("ability");
+                result = abilityInfo.getString("name");
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
         }
         return result;
     }
 
     private String getImgUrl() {
         String result = "";
-        try {
-            JSONObject sprites = details.getJSONObject("sprites");
-            result = sprites.getString("front_default");
-        }catch (JSONException e){
-            e.printStackTrace();
+        if (details != null){
+            try {
+                JSONObject sprites = details.getJSONObject("sprites");
+                result = sprites.getString("front_default");
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
         }
         return result;
     }
 
     private Object getStatValue(int index) {
         String result = "";
-        try {
-            JSONArray stats = details.getJSONArray("stats");
-            JSONObject statDetail = stats.getJSONObject(index);
-            result = statDetail.getString("base_stat");
-        }catch (JSONException e){
-            e.printStackTrace();
+        if (details != null){
+            try {
+                JSONArray stats = details.getJSONArray("stats");
+                JSONObject statDetail = stats.getJSONObject(index);
+                result = statDetail.getString("base_stat");
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
         }
         return result;
     }
 
     private String getStatName(int index) {
         String result = "";
-        try {
-            JSONArray stats = details.getJSONArray("stats");
-            JSONObject statDetail = stats.getJSONObject(index);
-            JSONObject statExtra = statDetail.getJSONObject("stat");
-            result = statExtra.getString("name");
-        }catch (JSONException e){
-            e.printStackTrace();
+        if (details != null){
+            try {
+                JSONArray stats = details.getJSONArray("stats");
+                JSONObject statDetail = stats.getJSONObject(index);
+                JSONObject statExtra = statDetail.getJSONObject("stat");
+                result = statExtra.getString("name");
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
         }
+
         return result;
     }
 
     private String getPokemonName(){
         String name = "";
-        try {
-            name = details.getString("name");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (details != null){
+            try {
+                name = details.getString("name");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
         return name;
     }
 }
