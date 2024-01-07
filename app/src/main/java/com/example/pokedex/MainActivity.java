@@ -14,7 +14,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.pokedex.fragments.PokemonDetailFragment;
 import com.example.pokedex.fragments.PokemonListFragment;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     int limit = 100;
     int counter = 0;
     private final ArrayList<pokemon> data = new ArrayList<>();
+    TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,49 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        tabLayout = findViewById(R.id.tabLayout);
+        setupTabLayout();
+    }
+
+    private void setupTabLayout() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        showPokemonListFragment(data);
+                        break;
+                    case 1:
+                        showPokemonDetailFragment();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void showPokemonDetailFragment() {
+        PokemonDetailFragment fragment = PokemonDetailFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void showPokemonListFragment(ArrayList<pokemon> list) {
+        PokemonListFragment fragment = PokemonListFragment.newInstance(list);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void storeNewData(String id, String name, String[] types, String imgUrl, final DataLoadedCallback dataLoadedCallback) {
@@ -99,14 +146,6 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback::onCallback, error -> Log.d("Error", R.string.requestErr + error.toString()));
         queue.add(request);
-    }
-
-    private void showPokemonListFragment(ArrayList<pokemon> list) {
-        PokemonListFragment fragment = PokemonListFragment.newInstance(list);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override

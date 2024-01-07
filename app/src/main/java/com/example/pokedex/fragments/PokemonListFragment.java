@@ -16,11 +16,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PokemonListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PokemonListFragment extends Fragment {
 
     private ArrayList<pokemon> pokemonList;

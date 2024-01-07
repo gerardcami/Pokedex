@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="aboutText">About</string>
     <string name="pokedex">Pokédex</string>
-    <string name="pokemon_info">Pokemon info</string>
+    <string name="pokemon_details">Pokemon details</string>
     <string name="requestErr">Hubo un error en la solicitud</string>
     <string name="author">By Gerard Camí</string>
     <string name="go_back">Go back</string>
