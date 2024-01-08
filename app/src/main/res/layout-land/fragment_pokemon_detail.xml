@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:layout_gravity="center"
     tools:context=".fragments.PokemonDetailFragment">
     <TextView
@@ -17,7 +18,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"
@@ -37,49 +38,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Stats"
-                    android:textSize="35sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/healthPoints"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hp"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/attack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Attack"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/defense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Defense"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/special_attack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Special-attack"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/special_defense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Special-defense"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Speed"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -93,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ability1"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:layout_weight="1"
                 android:textAlignment="center"/>
             <TextView
@@ -101,9 +102,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ability2"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:layout_weight="1"
                 android:textAlignment="center"/>
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>

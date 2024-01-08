@@ -2,6 +2,7 @@ package com.example.pokedex;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        Toolbar toolbar = findViewById(R.id.tBarPokemon);
+        setSupportActionBar(toolbar);
     }
 
     @Override

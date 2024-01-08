@@ -2,13 +2,16 @@ package com.example.pokedex;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements PokemonListFragment.OnPokemonSelectedListener {
     // ...
@@ -32,15 +36,19 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         getPokemonDetails(pokemonId);
     }
 
-    int limit = 10;
+    private final int limit = 10;
     private final ArrayList<pokemon> data = new ArrayList<>();
-    JSONObject singlePokemonDetails;
-    TabLayout tabLayout;
+    private JSONObject singlePokemonDetails;
+    private TabLayout tabLayout;
+    private int orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        orientation = getResources().getConfiguration().orientation;
+        Toolbar toolbar = findViewById(R.id.tBarPokemon);
+        setSupportActionBar(toolbar);
         getPokemonData(pokeUrls -> {
             for (String url : pokeUrls) {
                 getSinglePokemon(url, result -> {
@@ -64,20 +72,27 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
                 });
             }
         });
-        tabLayout = findViewById(R.id.tabLayout);
-        setupTabLayout();
-
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            tabLayout = findViewById(R.id.tabLayout);
+            setupTabLayout();
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            showPokemonListFragment(data);
+            showPokemonDetailLandscape(singlePokemonDetails);
+        }
     }
 
     private void getPokemonDetails(String id){
         String url = "https://pokeapi.co/api/v2/pokemon/" + id;
-        getSinglePokemon(url, new pokemonCallback() {
-            @Override
-            public void onCallback(JSONObject result) {
-                singlePokemonDetails = result;
+        getSinglePokemon(url, result -> {
+            orientation = getResources().getConfiguration().orientation;
+            singlePokemonDetails = result;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 showPokemonDetailFragment(singlePokemonDetails);
-                tabLayout.getTabAt(1).select();
+                Objects.requireNonNull(tabLayout.getTabAt(1)).select();
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                showPokemonDetailLandscape(singlePokemonDetails);
             }
+
         });
     }
 
@@ -90,7 +105,12 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
                         showPokemonListFragment(data);
                         break;
                     case 1:
-                        showPokemonDetailFragment(singlePokemonDetails);
+                        if (singlePokemonDetails != null) showPokemonDetailFragment(singlePokemonDetails);
+                        else {
+                            Objects.requireNonNull(tabLayout.getTabAt(0)).select();
+                            Toast.makeText(MainActivity.this, "Debes seleccionar un pokemon", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                 }
             }
 
@@ -113,6 +133,13 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
                 .addToBackStack(null)
                 .commit();
     }
+    public void showPokemonDetailLandscape(JSONObject details) {
+        PokemonDetailFragment fragment = PokemonDetailFragment.newInstance(details);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_detail, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     private void showPokemonListFragment(ArrayList<pokemon> list) {
         PokemonListFragment fragment = PokemonListFragment.newInstance(list);
@@ -126,6 +153,19 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         data.add(new pokemon(id, name, types, imgUrl));
         if (data.size() == limit){
             dataLoadedCallback.onDataLoaded(data);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_main);
+            showPokemonListFragment(data);
+            if (findViewById(R.id.fragment_container_detail) != null) showPokemonDetailLandscape(singlePokemonDetails);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setContentView(R.layout.activity_main);
+            showPokemonListFragment(data);
         }
     }
 

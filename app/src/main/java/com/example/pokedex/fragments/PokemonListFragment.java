@@ -1,7 +1,6 @@
 package com.example.pokedex.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,11 +9,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.pokedex.CustomAdapter;
-import com.example.pokedex.MainActivity;
 import com.example.pokedex.R;
 import com.example.pokedex.pokemon;
 
@@ -38,7 +35,7 @@ public class PokemonListFragment extends Fragment {
         if (context instanceof OnPokemonSelectedListener) {
             mListener = (OnPokemonSelectedListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(context
                     + " debe implementar OnPokemonSelectedListener");
         }
     }
@@ -69,12 +66,9 @@ public class PokemonListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String pokemonId = pokemonList.get(position).getId();
-                mListener.onPokemonSelected(pokemonId);
-            }
+        gridView.setOnItemClickListener((parent, view1, position, id) -> {
+            String pokemonId = pokemonList.get(position).getId();
+            mListener.onPokemonSelected(pokemonId);
         });
     }
 
@@ -83,7 +77,7 @@ public class PokemonListFragment extends Fragment {
     }
 
     private String[] getIDsList() {
-        String[] idList = new String[1000];
+        String[] idList = new String[500];
         int i = 0;
         for (pokemon p : pokemonList){
             idList[i] = p.getId();
@@ -93,7 +87,7 @@ public class PokemonListFragment extends Fragment {
     }
 
     private String[] getPokemonList() {
-        String[] list = new String[1000];
+        String[] list = new String[500];
         int i = 0;
         for (pokemon p : pokemonList){
             list[i] = p.getName();
@@ -103,7 +97,7 @@ public class PokemonListFragment extends Fragment {
     }
 
     private String[] getPokemonImg() {
-        String[] imgList = new String[1000];
+        String[] imgList = new String[500];
         int i = 0;
         for (pokemon p : pokemonList){
             imgList[i] = p.getImgUrl();

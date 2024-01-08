@@ -6,6 +6,12 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tBarPokemon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/menu">
+    </androidx.appcompat.widget.Toolbar>
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
@@ -20,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pokemon_details"/>
-
     </com.google.android.material.tabs.TabLayout>
 
     <FrameLayout
@@ -28,7 +33,5 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </FrameLayout>
-
 </LinearLayout>
