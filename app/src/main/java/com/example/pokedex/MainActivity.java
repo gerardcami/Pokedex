@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
             }
         });
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            tabLayout = findViewById(R.id.tabLayout);
             setupTabLayout();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             showPokemonListFragment(data);
@@ -87,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
     }
 
     private void setupTabLayout() {
+        tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -171,7 +171,9 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             setContentView(R.layout.activity_main);
             showPokemonListFragment(data);
+            setupTabLayout();
         }
+        setupToolbar();
     }
 
     public interface DataLoadedCallback {
@@ -224,9 +226,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if (item.getItemId() == R.id.goBack) finish();
-        else if (item.getItemId() == R.id.goPokedex) startActivity(new Intent(this, MainActivity.class));
-        else if (item.getItemId() == R.id.aboutMenu) startActivity(new Intent(this, About.class));
+        if (item.getItemId() == R.id.aboutMenu) startActivity(new Intent(this, About.class));
         else if (item.getItemId() == R.id.action_settings) startActivity(new Intent(this, Settings.class));
 
         return true;
