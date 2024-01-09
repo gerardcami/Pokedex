@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.Objects;
+
 public class About extends AppCompatActivity {
 
     @Override
@@ -18,6 +20,7 @@ public class About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Toolbar toolbar = findViewById(R.id.tBarPokemon);
         setSupportActionBar(toolbar);
+        setupToolbar();
     }
 
     @Override
@@ -33,9 +36,16 @@ public class About extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if (item.getItemId() == R.id.goBack) finish();
+        else if (item.getItemId() == R.id.goPokedex) startActivity(new Intent(this, MainActivity.class));
         else if (item.getItemId() == R.id.aboutMenu) startActivity(new Intent(this, About.class));
         else if (item.getItemId() == R.id.action_settings) startActivity(new Intent(this, Settings.class));
 
         return true;
+    }
+
+    public void setupToolbar(){
+        Toolbar toolbar = findViewById(R.id.tBarPokemon);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     }
 }

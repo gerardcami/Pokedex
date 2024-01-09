@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         orientation = getResources().getConfiguration().orientation;
-        Toolbar toolbar = findViewById(R.id.tBarPokemon);
-        setSupportActionBar(toolbar);
+        setupToolbar();
         getPokemonData(pokeUrls -> {
             for (String url : pokeUrls) {
                 getSinglePokemon(url, result -> {
@@ -81,19 +80,10 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         }
     }
 
-    private void getPokemonDetails(String id){
-        String url = "https://pokeapi.co/api/v2/pokemon/" + id;
-        getSinglePokemon(url, result -> {
-            orientation = getResources().getConfiguration().orientation;
-            singlePokemonDetails = result;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                showPokemonDetailFragment(singlePokemonDetails);
-                Objects.requireNonNull(tabLayout.getTabAt(1)).select();
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                showPokemonDetailLandscape(singlePokemonDetails);
-            }
-
-        });
+    public void setupToolbar(){
+        Toolbar toolbar = findViewById(R.id.tBarPokemon);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     }
 
     private void setupTabLayout() {
@@ -123,6 +113,21 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+        });
+    }
+
+    private void getPokemonDetails(String id){
+        String url = "https://pokeapi.co/api/v2/pokemon/" + id;
+        getSinglePokemon(url, result -> {
+            orientation = getResources().getConfiguration().orientation;
+            singlePokemonDetails = result;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                showPokemonDetailFragment(singlePokemonDetails);
+                Objects.requireNonNull(tabLayout.getTabAt(1)).select();
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                showPokemonDetailLandscape(singlePokemonDetails);
+            }
+
         });
     }
 
@@ -220,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         super.onOptionsItemSelected(item);
 
         if (item.getItemId() == R.id.goBack) finish();
+        else if (item.getItemId() == R.id.goPokedex) startActivity(new Intent(this, MainActivity.class));
         else if (item.getItemId() == R.id.aboutMenu) startActivity(new Intent(this, About.class));
         else if (item.getItemId() == R.id.action_settings) startActivity(new Intent(this, Settings.class));
 

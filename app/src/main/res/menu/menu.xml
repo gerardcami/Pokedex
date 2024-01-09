@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <item
+        android:id="@+id/goPokedex"
+        android:title="@string/go_back"
+        android:icon="@drawable/pokedex"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/goBack"
         android:title="@string/go_back"
@@ -17,5 +21,4 @@
         android:title="@string/aboutText"
         android:icon="@drawable/about_icon"
         app:showAsAction="never" />
-
 </menu>
