@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,10 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements PokemonListFragment.OnPokemonSelectedListener {
+public class MainActivity extends AppCompatActivity implements PokemonListFragment.OnPokemonSelectedListener, PokemonListFragment.OnScrollListener {
     // ...
 
     @Override
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         return requestQueue;
     }
 
-    private final int limit = 200;
+    private final int limit = 50;
     private final ArrayList<pokemon> data = new ArrayList<>();
     private JSONObject singlePokemonDetails;
     private TabLayout tabLayout;
@@ -218,6 +218,15 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
             setupTabLayout();
         }
         setupToolbar();
+    }
+
+    @Override
+    public void onScroll(boolean isScrolledUp) {
+        if (isScrolledUp) {
+            tabLayout.setVisibility(View.VISIBLE);
+        } else {
+            tabLayout.setVisibility(View.GONE);
+        }
     }
 
     public interface DataLoadedCallback {

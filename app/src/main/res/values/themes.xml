@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Pokedex" parent="Theme.Material3.DayNight.NoActionBar">
-
+        <item name="fontFamily">@font/poppins_regular</item>
     </style>
 
     <style name="Theme.Pokedex" parent="Base.Theme.Pokedex" />

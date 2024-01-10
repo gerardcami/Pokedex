@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.GridView;
 
 import com.example.pokedex.CustomAdapter;
@@ -23,6 +24,7 @@ public class PokemonListFragment extends Fragment {
     GridView gridView;
     private ArrayList<pokemon> pokemonList;
     private OnPokemonSelectedListener mListener;
+    private OnScrollListener sListener;
 
 
     public PokemonListFragment() {
@@ -34,6 +36,7 @@ public class PokemonListFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnPokemonSelectedListener) {
             mListener = (OnPokemonSelectedListener) context;
+            sListener = (OnScrollListener) context;
         } else {
             throw new RuntimeException(context
                     + " debe implementar OnPokemonSelectedListener");
@@ -59,6 +62,19 @@ public class PokemonListFragment extends Fragment {
         }
         gridView.setAdapter(new CustomAdapter(getActivity(), getIDsList(), getPokemonList(), getPokemonImg(), getTypesList()) {
         });
+        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (gridView.getChildAt(0) != null) {
+                    sListener.onScroll(firstVisibleItem < 1);
+                }
+            }
+        });
 
         return view;
     }
@@ -74,6 +90,10 @@ public class PokemonListFragment extends Fragment {
 
     public interface OnPokemonSelectedListener {
         void onPokemonSelected(String id);
+    }
+
+    public interface OnScrollListener {
+        void onScroll(boolean isScrolledUp);
     }
 
     private String[] getIDsList() {

@@ -73,7 +73,7 @@ public class CustomAdapter extends BaseAdapter {
         pokemonID.setText(idText);
 
         TextView pokemonName = holder.name;
-        pokemonName.setText(pokemonList[position]);
+        pokemonName.setText(capitalize(pokemonList[position]));
 
 
         StringBuilder typeString = new StringBuilder();
@@ -85,9 +85,17 @@ public class CustomAdapter extends BaseAdapter {
             }
         }
         TextView types = holder.types;
-        types.setText(typeString.toString());
+        types.setText(capitalize(typeString.toString()));
 
         return convertView;
+    }
+
+    public String capitalize(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        } else {
+            return text.substring(0, 1).toUpperCase() + text.substring(1);
+        }
     }
     private static class ViewHolder {
         public TextView name;
