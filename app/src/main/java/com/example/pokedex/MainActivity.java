@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements PokemonListFragment.OnPokemonSelectedListener {
@@ -36,7 +37,16 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         getPokemonDetails(pokemonId);
     }
 
-    private final int limit = 10;
+    private RequestQueue requestQueue;
+
+    public RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        return requestQueue;
+    }
+
+    private final int limit = 200;
     private final ArrayList<pokemon> data = new ArrayList<>();
     private JSONObject singlePokemonDetails;
     private TabLayout tabLayout;
@@ -48,29 +58,10 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         setContentView(R.layout.activity_main);
         orientation = getResources().getConfiguration().orientation;
         setupToolbar();
-        getPokemonData(pokeUrls -> {
-            for (String url : pokeUrls) {
-                getSinglePokemon(url, result -> {
-                    try {
-                        String id = result.getString("id");
-                        String name = result.getString("name");
-                        // Get types from JSON
-                        JSONArray auxTypes = result.getJSONArray("types");
-                        String[] types = new String[auxTypes.length()];
-                        for (int i = 0; i < auxTypes.length(); i++) {
-                            JSONObject t = auxTypes.getJSONObject(i);
-                            JSONObject n = t.getJSONObject("type");
-                            types[i] = n.getString("name");
-                        }
-                        JSONObject auxImg = result.getJSONObject("sprites");
-                        String imgUrl = auxImg.getString("front_default");
-                        storeNewData(id, name, types, imgUrl, this::showPokemonListFragment);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        });
+        getPokemonData(this::handlePokemonData);
+        setupLayout();
+    }
+    private void setupLayout() {
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             setupTabLayout();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -90,13 +81,15 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
+                int position = tab.getPosition();
+                switch (position) {
                     case 0:
                         showPokemonListFragment(data);
                         break;
                     case 1:
-                        if (singlePokemonDetails != null) showPokemonDetailFragment(singlePokemonDetails);
-                        else {
+                        if (singlePokemonDetails != null) {
+                            showPokemonDetailFragment(singlePokemonDetails);
+                        } else {
                             Objects.requireNonNull(tabLayout.getTabAt(0)).select();
                             Toast.makeText(MainActivity.this, "Debes seleccionar un pokemon", Toast.LENGTH_SHORT).show();
                         }
@@ -106,29 +99,80 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
 
-    private void getPokemonDetails(String id){
-        String url = "https://pokeapi.co/api/v2/pokemon/" + id;
-        getSinglePokemon(url, result -> {
-            orientation = getResources().getConfiguration().orientation;
-            singlePokemonDetails = result;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                showPokemonDetailFragment(singlePokemonDetails);
-                Objects.requireNonNull(tabLayout.getTabAt(1)).select();
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                showPokemonDetailLandscape(singlePokemonDetails);
+    private void handlePokemonData(String[] pokeUrls) {
+        for (String url : pokeUrls) {
+            getSinglePokemon(url, this::handleSinglePokemon);
+        }
+    }
+    private void handleSinglePokemon(JSONObject result) {
+        try {
+            String id = result.getString("id");
+            String name = result.getString("name");
+            JSONArray auxTypes = result.getJSONArray("types");
+            String[] types = new String[auxTypes.length()];
+            for (int i = 0; i < auxTypes.length(); i++) {
+                JSONObject t = auxTypes.getJSONObject(i);
+                JSONObject n = t.getJSONObject("type");
+                types[i] = n.getString("name");
             }
+            JSONObject auxImg = result.getJSONObject("sprites");
+            String imgUrl = auxImg.getString("front_default");
+            storeNewData(id, name, types, imgUrl, this::showPokemonListFragment);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-        });
+    private void handlePokemonDetails(JSONObject result) {
+        orientation = getResources().getConfiguration().orientation;
+        singlePokemonDetails = result;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            showPokemonDetailFragment(singlePokemonDetails);
+            Objects.requireNonNull(tabLayout.getTabAt(1)).select();
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            showPokemonDetailLandscape(singlePokemonDetails);
+        }
+    }
+
+    public void getPokemonData(final pokemonDataCallback callback) {
+        RequestQueue queue = getRequestQueue();
+        String url = "https://pokeapi.co/api/v2/pokemon?limit=" + limit + "&offset=0";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                JSONArray results = response.getJSONArray("results");
+                String[] pokeUrls = new String[results.length()];
+
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject p = results.getJSONObject(i);
+                    String pokemonUrl = p.getString("url");
+                    pokeUrls[i] = pokemonUrl;
+                }
+
+                callback.onCallback(pokeUrls);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }, error -> Log.d("Error", getString(R.string.requestErr) + error.toString()));
+        queue.add(request);
+    }
+
+    public void getSinglePokemon(String url, final pokemonCallback callback) {
+        RequestQueue queue = getRequestQueue();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback::onCallback, error -> Log.d("Error", R.string.requestErr + error.toString()));
+        queue.add(request);
+    }
+
+    private void getPokemonDetails(String id) {
+        String url = "https://pokeapi.co/api/v2/pokemon/" + id;
+        getSinglePokemon(url, this::handlePokemonDetails);
     }
 
     public void showPokemonDetailFragment(JSONObject details) {
@@ -164,13 +208,13 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_main);
+        showPokemonListFragment(data);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.activity_main);
-            showPokemonListFragment(data);
-            if (findViewById(R.id.fragment_container_detail) != null) showPokemonDetailLandscape(singlePokemonDetails);
+            if (findViewById(R.id.fragment_container_detail) != null) {
+                showPokemonDetailLandscape(singlePokemonDetails);
+            }
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setContentView(R.layout.activity_main);
-            showPokemonListFragment(data);
             setupTabLayout();
         }
         setupToolbar();
@@ -187,31 +231,6 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
 
     public interface pokemonDataCallback {
         void onCallback(String[] pokeUrls);
-    }
-
-    public void getPokemonData(final pokemonDataCallback callback) {
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://pokeapi.co/api/v2/pokemon?limit="+limit+"&offset=0", null, response -> {
-            try {
-                JSONArray results = response.getJSONArray("results");
-                String[] pokeUrls = new String[results.length()];
-                for (int i = 0; i < results.length(); i++){
-                    JSONObject p = results.getJSONObject(i);
-                    String url = p.getString("url");
-                    pokeUrls[i] = url;
-                }
-                callback.onCallback(pokeUrls);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }, error -> Log.d("Error", R.string.requestErr + error.toString()));
-        queue.add(request);
-    }
-
-    public void getSinglePokemon(String url, final pokemonCallback callback) {
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback::onCallback, error -> Log.d("Error", R.string.requestErr + error.toString()));
-        queue.add(request);
     }
 
     @Override
