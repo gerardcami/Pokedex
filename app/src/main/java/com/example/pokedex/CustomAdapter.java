@@ -1,5 +1,6 @@
 package com.example.pokedex;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,7 @@ public class CustomAdapter extends BaseAdapter {
 
         String strNum = pokemonIDs[position];
         int num = Integer.parseInt(strNum);
-        String formattedNum = String.format("%04d", num);
+        @SuppressLint("DefaultLocale") String formattedNum = String.format("%04d", num);
         String idText = "N.º " + formattedNum;
         TextView pokemonID = holder.id;
         pokemonID.setText(idText);

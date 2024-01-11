@@ -9,4 +9,18 @@
     <string name="go_back">Go back</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="must_select_pokemon">Debes seleccionar un pokemon</string>
+    <string name="pokemon_image">Pokemon Image</string>
+    <string name="pokemon_name">Pokemon name</string>
+    <string name="stats">Stats</string>
+    <string name="health_points">Health points</string>
+    <string name="attack">Attack</string>
+    <string name="defense">Defense</string>
+    <string name="special_attack">Special-attack</string>
+    <string name="special_defense">Special-defense</string>
+    <string name="speed">Speed</string>
+    <string name="ability1">Ability1</string>
+    <string name="ability2">Ability2</string>
+    <string name="pokemon_id">Pokemon id</string>
+    <string name="pokemon_types">Pokemon types</string>
 </resources>

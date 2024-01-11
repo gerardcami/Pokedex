@@ -9,7 +9,6 @@
         android:id="@+id/pokeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        />
-
+        android:numColumns="1"
+        android:verticalSpacing="20dp" />
 </FrameLayout>

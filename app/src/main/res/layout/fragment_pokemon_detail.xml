@@ -10,77 +10,76 @@
         android:id="@+id/singlePokemonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pokemon name"
+        android:text="@string/pokemon_name"
         android:textSize="50sp"
         android:textAlignment="center"/>
+
     <LinearLayout
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_margin="10dp"
-                android:layout_width="170dp"
-                android:layout_height="170dp"
-                android:id="@+id/singlePokemonImg"/>
+        <ImageView
+            android:background="@drawable/round_background"
+            android:layout_marginTop="10dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/singlePokemonImg"
+            android:contentDescription="@string/pokemon_image" />
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="@string/stats"
+                android:textSize="30sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Stats"
-                    android:textSize="35sp" />
+            <TextView
+                android:id="@+id/healthPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/health_points"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/healthPoints"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hp"
-                    android:textSize="25sp" />
+            <TextView
+                android:id="@+id/attack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/attack"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/attack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Attack"
-                    android:textSize="25sp" />
+            <TextView
+                android:id="@+id/defense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defense"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/defense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Defense"
-                    android:textSize="25sp" />
+            <TextView
+                android:id="@+id/special_attack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/special_attack"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/special_attack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Special-attack"
-                    android:textSize="25sp" />
+            <TextView
+                android:id="@+id/special_defense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/special_defense"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/special_defense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Special-defense"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Speed"
-                    android:textSize="25sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed"
+                android:textSize="20sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_margin="10dp"
@@ -90,19 +89,24 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/ability1"
+                android:textColor="@color/white"
+                android:background="@drawable/ability_background"
+                android:paddingHorizontal="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ability1"
-                android:textSize="30sp"
-                android:layout_weight="1"
+                android:text="@string/ability1"
+                android:textSize="20sp"
                 android:textAlignment="center"/>
             <TextView
                 android:id="@+id/ability2"
+                android:textColor="@color/white"
+                android:background="@drawable/ability_background"
+                android:paddingHorizontal="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ability2"
-                android:textSize="30sp"
-                android:layout_weight="1"
+                android:text="@string/ability2"
+                android:textSize="20sp"
                 android:textAlignment="center"/>
         </LinearLayout>
     </LinearLayout>

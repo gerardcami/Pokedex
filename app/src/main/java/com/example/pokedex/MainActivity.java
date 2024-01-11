@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
     @Override
     public void onPokemonSelected(String pokemonId) {
         getPokemonDetails(pokemonId);
+        if (orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            tabLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private RequestQueue requestQueue;
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         return requestQueue;
     }
 
-    private final int limit = 50;
+    private final int limit = 100;
     private final ArrayList<pokemon> data = new ArrayList<>();
     private JSONObject singlePokemonDetails;
     private TabLayout tabLayout;
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
                             showPokemonDetailFragment(singlePokemonDetails);
                         } else {
                             Objects.requireNonNull(tabLayout.getTabAt(0)).select();
-                            Toast.makeText(MainActivity.this, "Debes seleccionar un pokemon", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.must_select_pokemon, Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -136,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
         singlePokemonDetails = result;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             showPokemonDetailFragment(singlePokemonDetails);
+            tabLayout.setVisibility(View.VISIBLE);
             Objects.requireNonNull(tabLayout.getTabAt(1)).select();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             showPokemonDetailLandscape(singlePokemonDetails);
@@ -181,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+        setupTabLayout();
     }
     public void showPokemonDetailLandscape(JSONObject details) {
         PokemonDetailFragment fragment = PokemonDetailFragment.newInstance(details);
@@ -222,11 +228,15 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
 
     @Override
     public void onScroll(boolean isScrolledUp) {
-        if (isScrolledUp) {
-            tabLayout.setVisibility(View.VISIBLE);
-        } else {
-            tabLayout.setVisibility(View.GONE);
+        if (orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            if (isScrolledUp) {
+                tabLayout.setVisibility(View.VISIBLE);
+            } else {
+                tabLayout.setVisibility(View.GONE);
+            }
         }
+
     }
 
     public interface DataLoadedCallback {

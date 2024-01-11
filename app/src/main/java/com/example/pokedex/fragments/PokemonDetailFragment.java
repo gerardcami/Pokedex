@@ -65,24 +65,24 @@ public class PokemonDetailFragment extends Fragment {
         TextView ability2 = view.findViewById(R.id.ability2);
         ImageView img = view.findViewById(R.id.singlePokemonImg);
 
-        name.setText(getPokemonName());
+        name.setText(capitalize(getPokemonName()));
         String aux = getStatName(0) + ": " + getStatValue(0);
-        healthPoints.setText(aux);
+        healthPoints.setText(capitalize(aux));
         aux = getStatName(1) + ": " + getStatValue(1);
-        attack.setText(aux);
+        attack.setText(capitalize(aux));
         aux = getStatName(2) + ": " + getStatValue(2);
-        defense.setText(aux);
+        defense.setText(capitalize(aux));
         aux = getStatName(3) + ": " + getStatValue(3);
-        special_attack.setText(aux);
+        special_attack.setText(capitalize(aux));
         aux = getStatName(4) + ": " + getStatValue(4);
-        special_defense.setText(aux);
+        special_defense.setText(capitalize(aux));
         aux = getStatName(5) + ": " + getStatValue(5);
-        speed.setText(aux);
+        speed.setText(capitalize(aux));
         Glide.with(view)
                 .load(getImgUrl())
                 .into(img);
-        ability1.setText(getAbilityName(0));
-        ability2.setText(getAbilityName(1));
+        ability1.setText(capitalize(getAbilityName(0)));
+        ability2.setText(capitalize(getAbilityName(1)));
         return view;
     }
 
@@ -155,5 +155,13 @@ public class PokemonDetailFragment extends Fragment {
         }
 
         return name;
+    }
+
+    public String capitalize(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        } else {
+            return text.substring(0, 1).toUpperCase() + text.substring(1);
+        }
     }
 }
