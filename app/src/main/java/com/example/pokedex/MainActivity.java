@@ -123,9 +123,10 @@ public class MainActivity extends AppCompatActivity implements PokemonListFragme
             JSONArray auxTypes = result.getJSONArray("types");
             String[] types = new String[auxTypes.length()];
             for (int i = 0; i < auxTypes.length(); i++) {
-                JSONObject t = auxTypes.getJSONObject(i);
-                JSONObject n = t.getJSONObject("type");
-                types[i] = n.getString("name");
+                JSONObject a = auxTypes.getJSONObject(i);
+                JSONObject b = a.getJSONObject("type");
+                String type = b.getString("name");
+                types[i] = type;
             }
             JSONObject auxImg = result.getJSONObject("sprites");
             String imgUrl = auxImg.getString("front_default");

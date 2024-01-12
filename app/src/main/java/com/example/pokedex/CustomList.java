@@ -3,7 +3,6 @@ package com.example.pokedex;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.GridView;
 
 public class CustomList extends AppCompatActivity {
     @Override

@@ -22,5 +22,5 @@
     <string name="ability1">Ability1</string>
     <string name="ability2">Ability2</string>
     <string name="pokemon_id">Pokemon id</string>
-    <string name="pokemon_types">Pokemon types</string>
+    <string name="pokemon_types">type</string>
 </resources>

@@ -111,4 +111,3 @@ public class CustomAdapter extends BaseAdapter {
         }
     }
 }
-

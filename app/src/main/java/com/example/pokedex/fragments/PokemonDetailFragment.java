@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class PokemonDetailFragment extends Fragment {
 
     private JSONObject details;
@@ -81,8 +83,12 @@ public class PokemonDetailFragment extends Fragment {
         Glide.with(view)
                 .load(getImgUrl())
                 .into(img);
-        ability1.setText(capitalize(getAbilityName(0)));
-        ability2.setText(capitalize(getAbilityName(1)));
+        if (!Objects.equals(getAbilityName(0), "")){
+            ability1.setText(capitalize(getAbilityName(0)));
+        } else ability1.setVisibility(View.GONE);
+        if (!Objects.equals(getAbilityName(1), "")){
+            ability2.setText(capitalize(getAbilityName(1)));
+        } else ability2.setVisibility(View.GONE);
         return view;
     }
 

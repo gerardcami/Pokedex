@@ -12,7 +12,8 @@
         android:background="@drawable/round_background"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:id="@+id/pokemonImg"/>
+        android:id="@+id/pokemonImg"
+        android:contentDescription="@string/pokemon_image" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pokemon id"
+            android:text="@string/pokemon_id"
             android:textSize="15sp"
             android:id="@+id/pokemonID"/>
     </LinearLayout>
@@ -33,14 +34,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="22dp"
-            android:text="Pokemon name"
+            android:text="@string/pokemon_name"
             android:textSize="20sp"
             android:textAlignment="center"
             android:id="@+id/pokemonName"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pokemon types"
+            android:text="@string/pokemon_types"
             android:textSize="15sp"
             android:textAlignment="center"
             android:id="@+id/pokemonTypes"/>
